@@ -1,6 +1,6 @@
 
 ##main
-from castle import Room
+from main import Room
 from character import Enemy, Friend
 from character import Character
 from item import Item
