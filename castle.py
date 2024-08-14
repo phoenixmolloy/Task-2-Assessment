@@ -5,7 +5,7 @@ class Room:
         self.description = None
         self.linked_rooms = {}  # creates an empty dictionary
         self.character = None
-        self.item = None
+        self.obj = None
 
     #Method to get the name of the room:
     def get_name(self):
@@ -51,9 +51,9 @@ class Room:
         self.character = room_character
 
     #Method to get the item in a room:
-    def get_item(self):
-        return self.item
+    def get_obj(self):
+        return self.obj
 
     #Method to set the item in a room:
-    def set_item(self, room_item):
-        self.item = room_item
+    def set_obj(self, room_obj):
+        self.obj = room_obj

@@ -1,5 +1,5 @@
 from castle import Room
-from item import Item
+from item import Obj
 from character import Character
 
 
@@ -83,9 +83,10 @@ print("*****************************************************************")
 while dead == False:
     print("")
 
-    object = current_room.get_object()
-    if object is not None:
-        object.describe()
+
+    obj = current_room.get_obj()
+    if obj is not None:
+        obj.describe()
 
     print("The " + current_room.get_name())
     current_room.describe()

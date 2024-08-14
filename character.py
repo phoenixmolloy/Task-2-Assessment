@@ -7,7 +7,7 @@ class Character:
 
     # Describe this character
     def describe(self):
-        print( "A " + self.name + " is here!" )
+        print( "A " + self.name + " is here!")
         print( self.description )
 
     # Set what this character will say when talked to
@@ -22,6 +22,6 @@ class Character:
             print(self.name + " can't talk to you")
 
     # Fight with this character
-    def fight(self):
-
-    def fight(self):
+    # def fight(self):
+    #
+    # def fight(self):

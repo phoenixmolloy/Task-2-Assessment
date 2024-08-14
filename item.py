@@ -1,7 +1,7 @@
 
-class Item:
-    def __init__(self, item_name):
-        self.name = item_name
+class Obj:
+    def __init__(self, obj_name):
+        self.name = obj_name
         self.description = None
 
     #Get the description of the item
@@ -9,16 +9,21 @@ class Item:
         return self.description
 
     #Set the description of the item
-    def set_description(self, item_description):
-        self.description = item_description
+    def set_description(self, obj_description):
+        self.description = obj_description
 
     #Get the name of the item
     def get_name(self):
         return self.name
 
     #Set the name of the item:
-    def set_name(self, item_name):
-        self.name = item_name
+    def set_name(self, obj_name):
+        self.name = obj_name
 
     def describe(self):
         print("The [" + self.name + "] is here - " + self.description)
+
+class Item(Obj):
+    def __init__(self, obj_name):
+        super().__init__(obj_name)
+        self.feeling = None
