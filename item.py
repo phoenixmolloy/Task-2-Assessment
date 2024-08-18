@@ -23,9 +23,13 @@ class Obj:
     def describe(self):
         print("[" + self.name + "] is here")
 
-class Key(Obj):
-    def __init__(self, obj_name):
-        super().__init__(obj_name)
+# class Enemy_loot(Obj):
+#     def __init__(self, obj_name):
+#         super().__init__(obj_name, current_room)
+#         self.current_room = current_room
+
+    # def drop(self, current_room):
+    #     current_room.set_obj(object)
 
 
 class Chest(Obj):

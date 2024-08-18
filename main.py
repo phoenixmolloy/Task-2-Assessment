@@ -1,5 +1,5 @@
 from castle import Room
-from item import Obj, Chest, Key
+from item import Obj, Chest
 from character import Character, Enemy, Boss
 
 
@@ -67,12 +67,12 @@ fire_pot = Obj("Fire Potion")
 
 #Characters
 dwarf = Character("Dwarf", "Small wise man with exceptional knowledge")
-dwarf.set_conversation("dwarf conv")
+dwarf.set_conversation("Hello traveller. If you are here for the treasure, be aware of the dragon! Do not fight it without protection and a weapon!")
 dungeon.set_character(dwarf)
 wizard = Character("Wizard", "An old mysterious man who can perform magic spells and brew special potions")
 wizard.set_conversation("help me get book")
 labyrinth.set_character(wizard)
-goblin = Enemy("Goblin", "A little greedy monster - Holding something shiny", fire_pot)
+goblin = Enemy("Goblin", "A little greedy monster - Holding something shiny", "fire potion")
 goblin.set_conversation("Grrrr!!")
 chapel.set_character(goblin)
 dragon = Boss("The Dragon", "-desc-")
@@ -119,13 +119,18 @@ while dead == False:
     elif command == "talk":
         if inhabitant is not None:
             inhabitant.talk()
+            if inhabitant is dwarf:
+                print("[Dwarf says]: Take this key")
+                bag.append(key1)
+                print("You put [Key 1] in your bag")
+
         else:
             print("There's nobody here to talk to")
 
     elif command == "pick up":
         if obj is not None:
             print("You now have: " + obj.get_name())
-            bag.append(obj.get_name())
+            bag.append(obj)
             current_room.set_obj(None)
         else:
             print("Nothing here to pick up")
@@ -134,9 +139,9 @@ while dead == False:
         if inhabitant is wizard:
             if book in bag:
                 print("[Wizard says]: Thank you, for your bravery I reward you with a special potion")
-                bag.append(fire_pot)
+                bag.append("fire potion")
+                print("You put the [fire potion] in your bag")
                 bag.remove(book)
-                print(bag)
             else:
                 print("You do not have what he wants")
 
@@ -146,23 +151,35 @@ while dead == False:
         else:
             print("No objects here")
 
+    #Fight - Happens only if there is an enemy to fight
     elif command == "fight":
         if inhabitant is not None:
             if inhabitant.wants_to_fight == True:
                 print("What will you fight with?")
                 weapon = input("> ")
-                print(inhabitant.enemy_weakness)
                 if weapon in bag:
-                    if weapon == inhabitant.enemy_weakness:
-                        print("you killed it")
+                    if weapon ==:
+                        print("You have successfully defeated the " + "-")
+                        print("It dropped [Key 2]")
+                        current_room.inhabitant = None
+                        bag.append(key2)
+
                     else:
-                        print(weapon + " is ineffective against the " + inhabitant)
+                        print(weapon + " is ineffective against the " + "-")
                 else:
                     print("You don't have a " + weapon)
+                    print("You die")
+                    dead = True
             else:
-                print(inhabitant + "doesn't want to fight")
+                print(" -doesn't want to fight")
         else:
             print("There is nobody here to fight")
 
     # elif command == "take":
     #     if inhabitant
+
+
+
+
+    elif command == "":
+        print(bag)

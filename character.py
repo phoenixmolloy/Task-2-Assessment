@@ -5,6 +5,7 @@ class Character:
         self.description = char_description
         self.conversation = None
         self.wants_to_fight = False
+        self.bag = []
 
     # Describe this character
     def describe(self):
@@ -36,6 +37,14 @@ class Enemy(Character):
         self.wants_to_fight = True
         self.weakness = enemy_weakness
 
+    def get_weakness(self):
+        return self.weakness
+
+    #Set the name of the item:
+    def set_weakness(self, enemy_weakness):
+        self.weakness = enemy_weakness
+
+
     def fight(self, obj):
         if obj == self.weakness:
             print(self.name + " has been defeated with the " + obj)
@@ -43,6 +52,10 @@ class Enemy(Character):
         else:
             print(self.name + " killed you")
             return False
+
+    # def loot(self):
+
+
 
 
 
