@@ -4,6 +4,7 @@ class Character:
         self.name = char_name
         self.description = char_description
         self.conversation = None
+        self.wants_to_fight = False
 
     # Describe this character
     def describe(self):
@@ -24,12 +25,26 @@ class Character:
     def take(self):
         print("You took from " + self.name)
 
+    def fight(self):
+        print(self.name + " doesn't want to fight with you")
+        return True
 
 
-    # Fight with this character
-    # def fight(self):
-    #
-    # def fight(self):
+class Enemy(Character):
+    def __init__(self, char_name, char_description, enemy_weakness):
+        super().__init__(char_name, char_description)
+        self.wants_to_fight = True
+        self.weakness = enemy_weakness
+
+    def fight(self, obj):
+        if obj == self.weakness:
+            print(self.name + " has been defeated with the " + obj)
+            return True
+        else:
+            print(self.name + " killed you")
+            return False
+
+
 
 class Boss(Character):
     def __init__(self, char_name, char_description):

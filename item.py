@@ -21,7 +21,7 @@ class Obj:
         self.name = obj_name
 
     def describe(self):
-        print("The [" + self.name + "] is here - " + self.description)
+        print("[" + self.name + "] is here")
 
 class Key(Obj):
     def __init__(self, obj_name):
