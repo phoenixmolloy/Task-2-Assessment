@@ -84,12 +84,6 @@ storage_room.set_obj(sword)
 armory.set_obj(armor)
 library.set_obj(book)
 
-
-
-bag = []
-current_room = kitchen
-dead = False
-
 #Game instructions
 print("*****************************************************************")
 print("You are at the bottom of a castle and must find your way to the ")
@@ -98,6 +92,13 @@ print("Type the direction you want to go or the action you want to complete;")
 print("(north, south, east, west, up, down, take, talk, )")
 print("*****************************************************************")
 
+bag = []
+current_room = kitchen
+dead = False
+inhabitant_dead = False
+lock_1_open = False
+lock_2_open = False
+
 #Game loop
 while dead == False:
     print("")
@@ -105,6 +106,10 @@ while dead == False:
     current_room.describe()
     obj = current_room.get_obj()
     inhabitant = current_room.get_character()
+    if inhabitant_dead == True:
+        inhabitant = None
+    if inhabitant_dead == False:
+        inhabitant = current_room.get_character()
     if inhabitant is not None:
         inhabitant.describe()
 
@@ -114,7 +119,26 @@ while dead == False:
 
 
     if command in ["north", "south", "east", "west", "up", "down"]:
+        #Can only go upstairs if user has key
+        if command == "up":
+            if current_room == kitchen:
+                if lock_1_open == False:
+                    if key1 in bag:
+                        print("You used [key 1] to open the lock")
+                        lock_1_open = True
+                        bag.remove(key1)
+                        current_room = current_room.move(command)
+            if current_room == great_hall:
+                if lock_2_open == False:
+                    if key2 in bag:
+                        print("You used [key 2] to open the lock")
+                        lock_2_open = True
+                        bag.remove(key2)
+                        current_room = current_room.move(command)
+            else:
+                print("You need a key to open the lock on the stairs. ")
         current_room = current_room.move(command)
+
 
     elif command == "talk":
         if inhabitant is not None:
@@ -122,7 +146,7 @@ while dead == False:
             if inhabitant is dwarf:
                 print("[Dwarf says]: Take this key")
                 bag.append(key1)
-                print("You put [Key 1] in your bag")
+                print("You put [key 1] in your bag")
 
         else:
             print("There's nobody here to talk to")
@@ -158,20 +182,22 @@ while dead == False:
                 print("What will you fight with?")
                 weapon = input("> ")
                 if weapon in bag:
-                    if weapon ==:
-                        print("You have successfully defeated the " + "-")
-                        print("It dropped [Key 2]")
-                        current_room.inhabitant = None
+                    if weapon == inhabitant.weakness:
+                        print("You have successfully defeated the " + inhabitant.name)
+                        print("It dropped [key 2]")
+                        print("[key 2] is now in bag")
                         bag.append(key2)
-
+                        bag.remove(inhabitant.weakness)
+                        current_room.inhabitant = None
+                        inhabitant_dead = True
                     else:
-                        print(weapon + " is ineffective against the " + "-")
+                        print(weapon + " is ineffective against the " + inhabitant.name)
                 else:
                     print("You don't have a " + weapon)
                     print("You die")
                     dead = True
             else:
-                print(" -doesn't want to fight")
+                print(inhabitant.name + " -doesn't want to fight")
         else:
             print("There is nobody here to fight")
 
