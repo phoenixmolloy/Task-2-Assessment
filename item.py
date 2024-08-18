@@ -23,7 +23,11 @@ class Obj:
     def describe(self):
         print("The [" + self.name + "] is here - " + self.description)
 
-class Item(Obj):
+class Key(Obj):
     def __init__(self, obj_name):
         super().__init__(obj_name)
-        self.feeling = None
+
+
+class Chest(Obj):
+    def __init__(self, obj_name):
+        super().__init__(obj_name)

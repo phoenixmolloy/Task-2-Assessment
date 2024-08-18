@@ -1,6 +1,6 @@
 from castle import Room
-from item import Obj
-from character import Character
+from item import Obj, Chest, Key
+from character import Character, Boss
 
 
 #Set the scene - room descriptions
@@ -65,18 +65,35 @@ chapel.set_character(goblin)
 wizard = Character("Wizard", "An old mysterious man who can perform magic spells and brew special potions")
 wizard.set_conversation("")
 labyrinth.set_character(wizard)
+dragon = Boss("The Dragon", "-desc-")
 
 #Objects
+chest = Chest("Chest")
+armor = Obj("Armor")
+book = Obj("Enchanted Book")
+key1 = Obj("Key 1")
+key2 = Obj("Key 2")
+
+
+#link objects to rooms
+storage_room.set_obj(chest)
+armory.set_obj(armor)
+library.set_obj(book)
+
+
+
 
 
 bag = []
 current_room = kitchen
 dead = False
+
+#Game instructions
 print("*****************************************************************")
-print("")
 print("You are at the bottom of a castle and must find your way to the ")
-print("treasure at the top and defeat the dragon")
-print("")
+print("treasure at the top and defeat the dragon!")
+print("Type the direction you want to go or the action you want to complete;")
+print("(north, south, east, west, up, down, take, talk, )")
 print("*****************************************************************")
 
 #Game loop
@@ -88,7 +105,7 @@ while dead == False:
     if obj is not None:
         obj.describe()
 
-    print("The " + current_room.get_name())
+    print("You are in: The " + current_room.get_name())
     current_room.describe()
 
     inhabitant = current_room.get_character()
@@ -99,5 +116,11 @@ while dead == False:
 
     command = input("> ")
 
+
     if command in ["north", "south", "east", "west", "up", "down"]:
         current_room = current_room.move(command)
+
+
+    elif command == "talk":
+        if inhabitant is not None:
+            inhabitant.talk()
