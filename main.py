@@ -51,7 +51,7 @@ chapel.link_rooms(armory, "south")
 armory.link_rooms(chapel, "north")
 armory.link_rooms(great_hall, "west")
 great_hall.link_rooms(labyrinth, "north")
-great_hall.link_rooms(chapel, "east")
+great_hall.link_rooms(armory, "east")
 great_hall.link_rooms(treasure_room, "up")
 great_hall.link_rooms(kitchen, "down")
 
@@ -70,7 +70,7 @@ dwarf = Character("Dwarf", "Small wise man with exceptional knowledge")
 dwarf.set_conversation("Hello traveller. If you are here for the treasure, be aware of the dragon! Do not fight it without protection and a weapon!")
 dungeon.set_character(dwarf)
 wizard = Character("Wizard", "An old mysterious man who can perform magic spells and brew special potions")
-wizard.set_conversation("help me get book")
+wizard.set_conversation("Dear traveller, I need a special book to help me finish making a potion. If you could help me, I will reward you")
 labyrinth.set_character(wizard)
 goblin = Enemy("Goblin", "A little greedy monster - Holding something shiny", "fire potion")
 goblin.set_conversation("Grrrr!!")
@@ -85,17 +85,18 @@ armory.set_obj(armor)
 library.set_obj(book)
 
 #Game instructions
-print("*****************************************************************")
+print("***************************************************************************")
 print("You are at the bottom of a castle and must find your way to the ")
 print("treasure at the top and defeat the dragon!")
 print("Type the direction you want to go or the action you want to complete;")
-print("(north, south, east, west, up, down, take, talk, )")
-print("*****************************************************************")
+print("(north, south, east, west, up, down, search, pick up, talk, fight, give)")
+print("***************************************************************************")
 
 bag = []
 current_room = kitchen
 dead = False
 inhabitant_dead = False
+enemy_dead = False
 lock_1_open = False
 lock_2_open = False
 
@@ -106,10 +107,11 @@ while dead == False:
     current_room.describe()
     obj = current_room.get_obj()
     inhabitant = current_room.get_character()
-    if inhabitant_dead == True:
-        inhabitant = None
-    if inhabitant_dead == False:
-        inhabitant = current_room.get_character()
+
+    if enemy_dead == True:
+        if inhabitant is goblin:
+            inhabitant = None
+
     if inhabitant is not None:
         inhabitant.describe()
 
@@ -137,9 +139,10 @@ while dead == False:
                         current_room = current_room.move(command)
             else:
                 print("You need a key to open the lock on the stairs. ")
-        current_room = current_room.move(command)
+        if command != "up":
+            current_room = current_room.move(command)
 
-
+    #Conversation with any character
     elif command == "talk":
         if inhabitant is not None:
             inhabitant.talk()
@@ -151,6 +154,7 @@ while dead == False:
         else:
             print("There's nobody here to talk to")
 
+    #Collects an item and adds to bag
     elif command == "pick up":
         if obj is not None:
             print("You now have: " + obj.get_name())
@@ -159,16 +163,21 @@ while dead == False:
         else:
             print("Nothing here to pick up")
 
+    #To give a character an item from bag
     elif command == "give":
-        if inhabitant is wizard:
-            if book in bag:
-                print("[Wizard says]: Thank you, for your bravery I reward you with a special potion")
-                bag.append("fire potion")
-                print("You put the [fire potion] in your bag")
-                bag.remove(book)
+        if inhabitant is not None:
+            if inhabitant is wizard:
+                if book in bag:
+                    print("[Wizard says]: Thank you, for your bravery I reward you with a special potion")
+                    bag.append("fire potion")
+                    print("You put the [fire potion] in your bag")
+                    bag.remove(book)
+                else:
+                    print("You do not have what he wants")
             else:
-                print("You do not have what he wants")
+                print("The " + inhabitant.name + " doesn't want anything")
 
+    #Tells user if there is anything to pick up in the room
     elif command == "search":
         if obj is not None:
             obj.describe()
@@ -188,21 +197,20 @@ while dead == False:
                         print("[key 2] is now in bag")
                         bag.append(key2)
                         bag.remove(inhabitant.weakness)
-                        current_room.inhabitant = None
-                        inhabitant_dead = True
+                        # current_room.inhabitant = None
+                        enemy_dead = True
                     else:
                         print(weapon + " is ineffective against the " + inhabitant.name)
+                        print(inhabitant.name + " has defeated you. Game Over")
+                        dead = True
                 else:
                     print("You don't have a " + weapon)
-                    print("You die")
+                    print(inhabitant.name + " has defeated you. Game Over")
                     dead = True
             else:
-                print(inhabitant.name + " -doesn't want to fight")
+                print(inhabitant.name + " doesn't want to fight")
         else:
             print("There is nobody here to fight")
-
-    # elif command == "take":
-    #     if inhabitant
 
 
 
