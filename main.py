@@ -1,6 +1,6 @@
 from castle import Room
 from item import Obj
-from character import Character, Enemy, Boss
+from character import Character, Enemy
 
 
 #Set the scene - room descriptions
@@ -57,17 +57,17 @@ great_hall.link_rooms(kitchen, "down")
 
 
 #Objects
-sword = Obj("Sword")
-armor = Obj("Armor")
-book = Obj("Enchanted Book")
+sword = Obj("sword")
+armor = Obj("armor")
+book = Obj("enchanted book")
 key1 = Obj("Key 1")
 key2 = Obj("Key 2")
-fire_pot = Obj("Fire Potion")
+fire_pot = Obj("fire Potion")
 
 
 #Characters
 dwarf = Character("Dwarf", "Small wise man with exceptional knowledge")
-dwarf.set_conversation("Hello traveller. If you are here for the treasure, be aware of the dragon! Do not fight it without protection and a weapon!")
+dwarf.set_conversation("Hello traveller. If you are here for the treasure, be aware of the dragon! Do not fight it without a sword and armor!")
 dungeon.set_character(dwarf)
 wizard = Character("Wizard", "An old mysterious man who can perform magic spells and brew special potions")
 wizard.set_conversation("Dear traveller, I need a special book to help me finish making a potion. If you could help me, I will reward you")
@@ -75,7 +75,6 @@ labyrinth.set_character(wizard)
 goblin = Enemy("Goblin", "A little greedy monster - Holding something shiny", "fire potion")
 goblin.set_conversation("Grrrr!!")
 chapel.set_character(goblin)
-dragon = Boss("The Dragon", "-desc-")
 
 
 
@@ -91,7 +90,7 @@ print("*************************************************************************
 print("You are at the bottom of a castle and must find your way to the ")
 print("treasure at the top and defeat the dragon!")
 print("Type the direction you want to go or the action you want to complete;")
-print("(north, south, east, west, up, down, search, pick up, talk, fight, give)")
+print("(north, south, east, west, up, down, pick up, search, talk, fight, give)")
 print("***************************************************************************")
 
 bag = []
@@ -128,7 +127,7 @@ while dead == False:
         print("♡" * dragon_health)
         choice = input("It is flying towards you. Do you choose to fight or run? ")
         if choice == "fight":
-            for i in range(5):
+            for i in range(6):
                 if dragon_health > 0:
                     choice2 = input("dodge, attack or block? ")
                     if choice2 == "dodge":
@@ -176,7 +175,7 @@ while dead == False:
             exit()
 
 
-
+    #Check every input if boss is dead or alive
     if boss_defeated == False:
         command = input("> ")
     if boss_defeated == True:
@@ -196,6 +195,8 @@ while dead == False:
                         lock_1_open = True
                         bag.remove(key1)
                         current_room = current_room.move(command)
+                else:
+                    current_room = current_room.move(command)
             if current_room == great_hall:
                 if lock_2_open == False:
                     if key2 in bag:
@@ -203,6 +204,8 @@ while dead == False:
                         lock_2_open = True
                         bag.remove(key2)
                         current_room = current_room.move(command)
+                else:
+                    current_room = current_room.move(command)
             else:
                 print("You need a key to open the lock on the stairs. ")
         if command != "up":
@@ -258,6 +261,7 @@ while dead == False:
                 print("What will you fight with?")
                 weapon = input("> ")
                 if weapon in bag:
+                    print("its in bag")
                     if weapon == inhabitant.weakness:
                         print("You have successfully defeated the " + inhabitant.name)
                         print("It dropped [key 2]")
@@ -266,10 +270,14 @@ while dead == False:
                         bag.remove(inhabitant.weakness)
                         # current_room.inhabitant = None
                         enemy_dead = True
+                        print("hi")
                     else:
                         print(weapon + " is ineffective against the " + inhabitant.name)
                         print(inhabitant.name + " has defeated you. Game Over")
                         dead = True
+                elif weapon == "sword" and sword in bag:
+                    print("The " + weapon + " is ineffective against the " + inhabitant.name)
+                    print("You escape the goblin")
                 else:
                     print("You don't have a " + weapon)
                     print(inhabitant.name + " has defeated you. Game Over")
@@ -278,5 +286,3 @@ while dead == False:
                 print(inhabitant.name + " doesn't want to fight")
         else:
             print("There is nobody here to fight")
-
-

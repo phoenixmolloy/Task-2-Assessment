@@ -52,14 +52,3 @@ class Enemy(Character):
         else:
             print(self.name + " killed you")
             return False
-
-    # def loot(self):
-
-
-
-
-
-class Boss(Character):
-    def __init__(self, char_name, char_description):
-        super().__init__(char_name, char_description)
-        self.m = None
