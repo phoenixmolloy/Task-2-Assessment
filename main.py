@@ -23,7 +23,7 @@ chapel = Room("Chapel")
 chapel.set_description("Holy room for prayers and worshiping ")
 
 great_hall = Room("Great Hall")
-great_hall.set_description("Spacious and heavenly room ")
+great_hall.set_description("Spacious and heavenly room. More stairs in this room - requires different key ")
 
 armory = Room("Armory")
 armory.set_description("Filled with mostly empty armor stands ")
@@ -70,7 +70,7 @@ dwarf = Character("Dwarf", "Small wise man with exceptional knowledge")
 dwarf.set_conversation("Hello traveller. If you are here for the treasure, be aware of the dragon! Do not fight it without a sword and armor!")
 dungeon.set_character(dwarf)
 wizard = Character("Wizard", "An old mysterious man who can perform magic spells and brew special potions")
-wizard.set_conversation("Dear traveller, I need a special book to help me finish making a potion. If you could help me, I will reward you")
+wizard.set_conversation("Dear traveller, I need a special book to help me finish making a potion. If you could help me, I will reward you.  {hint: find what he wants and 'give' to him")
 labyrinth.set_character(wizard)
 goblin = Enemy("Goblin", "A little greedy monster - Holding something shiny", "fire potion")
 goblin.set_conversation("Grrrr!!")
@@ -127,7 +127,7 @@ while dead == False:
         print("♡" * dragon_health)
         choice = input("It is flying towards you. Do you choose to fight or run? ")
         if choice == "fight":
-            for i in range(6):
+            for i in range(9):
                 if dragon_health > 0:
                     choice2 = input("dodge, attack or block? ")
                     if choice2 == "dodge":
@@ -261,7 +261,6 @@ while dead == False:
                 print("What will you fight with?")
                 weapon = input("> ")
                 if weapon in bag:
-                    print("its in bag")
                     if weapon == inhabitant.weakness:
                         print("You have successfully defeated the " + inhabitant.name)
                         print("It dropped [key 2]")
@@ -270,7 +269,6 @@ while dead == False:
                         bag.remove(inhabitant.weakness)
                         # current_room.inhabitant = None
                         enemy_dead = True
-                        print("hi")
                     else:
                         print(weapon + " is ineffective against the " + inhabitant.name)
                         print(inhabitant.name + " has defeated you. Game Over")
